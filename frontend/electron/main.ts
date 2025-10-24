@@ -61,9 +61,6 @@ function createMainWindow() {
         mainWindow.loadFile(indexHtml).catch((err) => {
             console.error('Failed to load index.html:', err);
         });
-
-        // Открываем DevTools в production для отладки
-        mainWindow.webContents.openDevTools({ mode: 'detach' });
     }
 
     mainWindow.on('closed', () => {

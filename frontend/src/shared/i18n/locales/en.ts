@@ -78,6 +78,7 @@ export const en = {
             speaking: 'Speaking',
             muted: 'Muted',
             deafened: 'Deafened',
+            volume: 'Volume',
         },
 
         // Settings

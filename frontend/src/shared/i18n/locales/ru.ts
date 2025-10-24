@@ -78,6 +78,7 @@ export const ru = {
             speaking: 'Говорит',
             muted: 'Микрофон выключен',
             deafened: 'Звук выключен',
+            volume: 'Громкость',
         },
 
         // Settings

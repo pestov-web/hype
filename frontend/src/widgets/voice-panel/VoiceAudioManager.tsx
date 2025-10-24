@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useVoiceStore } from '@shared/lib/hooks/useStores';
+import { getUserAudioSettings } from '@shared/lib';
 
 /**
  * Component that manages audio playback for remote peers
@@ -60,7 +61,12 @@ export const VoiceAudioManager = observer(() => {
             if (!audioRefs.has(participant.userId)) {
                 const audioElement = document.createElement('audio');
                 audioElement.autoplay = true;
-                audioElement.volume = 1.0;
+
+                // Apply user audio settings
+                const settings = getUserAudioSettings(participant.userId);
+                audioElement.volume = settings.muted ? 0 : settings.volume;
+                audioElement.muted = settings.muted;
+
                 audioElement.setAttribute('playsinline', 'true');
                 audioElement.preload = 'auto';
                 audioElement.setAttribute('data-user-id', participant.userId);
@@ -70,7 +76,10 @@ export const VoiceAudioManager = observer(() => {
                     containerRef.current.appendChild(audioElement);
                 }
                 audioRefs.set(participant.userId, audioElement);
-                console.log(`🔊 Created audio element for user ${participant.userId}`);
+                console.log(`🔊 Created audio element for user ${participant.userId}`, {
+                    volume: audioElement.volume,
+                    muted: audioElement.muted,
+                });
             }
         });
 
@@ -117,13 +126,38 @@ export const VoiceAudioManager = observer(() => {
             });
         };
 
+        // Apply audio settings to all participants
+        const applyAudioSettings = () => {
+            audioRefs.forEach((audioElement, userId) => {
+                const settings = getUserAudioSettings(userId);
+                audioElement.volume = settings.muted ? 0 : settings.volume;
+                audioElement.muted = settings.muted;
+            });
+        };
+
         // Update immediately
         updateAudioStreams();
+        applyAudioSettings();
 
         // Update periodically (in case streams are added after participants)
-        const interval = setInterval(updateAudioStreams, 500);
+        const interval = setInterval(() => {
+            updateAudioStreams();
+            applyAudioSettings();
+        }, 500);
 
-        return () => clearInterval(interval);
+        // Listen for localStorage changes (from other tabs or same tab)
+        const handleStorageChange = (event: StorageEvent) => {
+            if (event.key === 'hype_user_audio_settings') {
+                console.log('🔊 User audio settings changed, reapplying...');
+                applyAudioSettings();
+            }
+        };
+        window.addEventListener('storage', handleStorageChange);
+
+        return () => {
+            clearInterval(interval);
+            window.removeEventListener('storage', handleStorageChange);
+        };
     }, [voiceStore]);
 
     // Cleanup on unmount

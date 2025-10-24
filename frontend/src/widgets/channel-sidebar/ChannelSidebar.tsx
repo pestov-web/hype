@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
-import { Avatar } from '@shared/ui';
+import { Avatar, UserContextMenu } from '@shared/ui';
 import { useChannelsStore, useAuthStore, useVoiceStore } from '@shared/lib/hooks/useStores';
 import styles from './ChannelSidebar.module.scss';
 import IconButton from '@shared/ui/IconButtons';
@@ -158,29 +158,37 @@ export const ChannelSidebar = observer(() => {
                                             {channelParticipants.map((participant) => {
                                                 const isSpeaking = participant.speaking || false;
                                                 return (
-                                                    <div key={participant.userId} className={styles.participant}>
-                                                        <div className={styles.avatarWrapper}>
-                                                            <Avatar
-                                                                username={participant.username}
-                                                                status='online'
-                                                                size='sm'
-                                                            />
-                                                            {isSpeaking && <div className={styles.speakingIndicator} />}
-                                                        </div>
-                                                        <div className={styles.participantInfo}>
-                                                            <span className={styles.participantName}>
-                                                                {participant.username}
-                                                            </span>
-                                                            <div className={styles.participantIcons}>
-                                                                {participant.muted && (
-                                                                    <MicOff color='#ed4245' size={16} />
-                                                                )}
-                                                                {participant.deafened && (
-                                                                    <HeadphoneOff color='#ed4245' size={16} />
+                                                    <UserContextMenu
+                                                        key={participant.userId}
+                                                        userId={participant.userId}
+                                                        userName={participant.username}
+                                                    >
+                                                        <div className={styles.participant}>
+                                                            <div className={styles.avatarWrapper}>
+                                                                <Avatar
+                                                                    username={participant.username}
+                                                                    status='online'
+                                                                    size='sm'
+                                                                />
+                                                                {isSpeaking && (
+                                                                    <div className={styles.speakingIndicator} />
                                                                 )}
                                                             </div>
+                                                            <div className={styles.participantInfo}>
+                                                                <span className={styles.participantName}>
+                                                                    {participant.username}
+                                                                </span>
+                                                                <div className={styles.participantIcons}>
+                                                                    {participant.muted && (
+                                                                        <MicOff color='#ed4245' size={16} />
+                                                                    )}
+                                                                    {participant.deafened && (
+                                                                        <HeadphoneOff color='#ed4245' size={16} />
+                                                                    )}
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    </UserContextMenu>
                                                 );
                                             })}
                                         </div>

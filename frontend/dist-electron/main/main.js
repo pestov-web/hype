@@ -1,10 +1,10 @@
-import { app as n, protocol as w, BrowserWindow as u, ipcMain as l, Notification as g, nativeTheme as s } from "electron";
-import i from "node:path";
+import { app as i, protocol as w, BrowserWindow as u, ipcMain as l, Notification as g, nativeTheme as s } from "electron";
+import n from "node:path";
 import { fileURLToPath as b } from "node:url";
-const f = process.env.VITE_DEV_SERVER_URL, c = !!f, x = b(import.meta.url), m = i.dirname(x);
+const f = process.env.VITE_DEV_SERVER_URL, c = !!f, x = b(import.meta.url), m = n.dirname(x);
 let e = null;
 function h() {
-  const a = c ? i.join(m, "preload.js") : i.join(m, "../preload/preload.js");
+  const a = c ? n.join(m, "preload.js") : n.join(m, "../preload/preload.js");
   if (e = new u({
     width: 1280,
     height: 800,
@@ -32,43 +32,43 @@ function h() {
   }), c && f)
     e.loadURL(f), e.webContents.openDevTools({ mode: "detach" });
   else {
-    const o = n.getAppPath(), t = i.join(o, "dist", "index.html");
+    const o = i.getAppPath(), t = n.join(o, "dist", "index.html");
     console.log("=== Electron Production Debug ==="), console.log("__dirname:", m), console.log("app.getAppPath():", o), console.log("Loading index.html from:", t), e.loadFile(t).catch((d) => {
       console.error("Failed to load index.html:", d);
-    }), e.webContents.openDevTools({ mode: "detach" });
+    });
   }
   e.on("closed", () => {
     e = null;
   });
 }
-n.requestSingleInstanceLock() || (n.quit(), process.exit(0));
-n.on("second-instance", () => {
+i.requestSingleInstanceLock() || (i.quit(), process.exit(0));
+i.on("second-instance", () => {
   e && (e.isMinimized() && e.restore(), e.focus());
 });
-n.whenReady().then(() => {
+i.whenReady().then(() => {
   w.interceptFileProtocol("file", (a, o) => {
     let t = a.url.replace("file:///", "");
     process.platform === "win32" && (t = t.replace(/^([a-z]):/i, "$1:"));
-    const d = n.getAppPath();
+    const d = i.getAppPath();
     if (console.log("🔧 File protocol intercepted:", a.url), t.includes("/dist/assets/")) {
-      const p = t.split("/dist/assets/")[1], r = i.join(d, "dist", "assets", p);
+      const p = t.split("/dist/assets/")[1], r = n.join(d, "dist", "assets", p);
       console.log("  → Asset resolved to:", r), o({ path: r });
       return;
     }
     if (t.includes("/dist/assets/onnxruntime-web/")) {
-      const p = t.split("/dist/assets/onnxruntime-web/")[1], r = i.join(d, "dist", "onnxruntime-web", p);
+      const p = t.split("/dist/assets/onnxruntime-web/")[1], r = n.join(d, "dist", "onnxruntime-web", p);
       console.log("  → ONNX Runtime resolved to:", r), o({ path: r });
       return;
     }
-    o({ path: i.normalize(t) });
-  }), h(), n.on("activate", () => {
+    o({ path: n.normalize(t) });
+  }), h(), i.on("activate", () => {
     u.getAllWindows().length === 0 && h();
   });
 });
-n.on("window-all-closed", () => {
-  process.platform !== "darwin" && n.quit();
+i.on("window-all-closed", () => {
+  process.platform !== "darwin" && i.quit();
 });
-l.handle("app:getVersion", () => n.getVersion());
+l.handle("app:getVersion", () => i.getVersion());
 l.on("app:window:minimize", () => {
   e?.minimize();
 });

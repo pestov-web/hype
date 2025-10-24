@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
-import { Avatar } from '@shared/ui';
+import { Avatar, UserContextMenu } from '@shared/ui';
 import { rootStore } from '@app/stores';
 import styles from './MembersList.module.scss';
 
@@ -86,28 +86,36 @@ export const MembersList = observer(() => {
                             });
 
                             return (
-                                <div key={user.id} className={styles.member}>
-                                    <div className={styles.avatarWrapper}>
-                                        <Avatar
-                                            username={user.username}
-                                            src={user.avatarUrl || undefined}
-                                            status={user.status.toLowerCase() as 'online' | 'idle' | 'dnd' | 'offline'}
-                                            size='md'
-                                        />
-                                        {isSpeaking && (
-                                            <div
-                                                className={styles.speakingIndicator}
-                                                style={{ border: '3px solid lime' }}
+                                <UserContextMenu
+                                    key={user.id}
+                                    userId={user.id}
+                                    userName={user.displayName || user.username}
+                                >
+                                    <div className={styles.member}>
+                                        <div className={styles.avatarWrapper}>
+                                            <Avatar
+                                                username={user.username}
+                                                src={user.avatarUrl || undefined}
+                                                status={
+                                                    user.status.toLowerCase() as 'online' | 'idle' | 'dnd' | 'offline'
+                                                }
+                                                size='md'
                                             />
-                                        )}
+                                            {isSpeaking && (
+                                                <div
+                                                    className={styles.speakingIndicator}
+                                                    style={{ border: '3px solid lime' }}
+                                                />
+                                            )}
+                                        </div>
+                                        <div className={styles.memberInfo}>
+                                            <div className={styles.memberName}>{user.displayName || user.username}</div>
+                                            {user.customStatus && (
+                                                <div className={styles.memberStatus}>{user.customStatus}</div>
+                                            )}
+                                        </div>
                                     </div>
-                                    <div className={styles.memberInfo}>
-                                        <div className={styles.memberName}>{user.displayName || user.username}</div>
-                                        {user.customStatus && (
-                                            <div className={styles.memberStatus}>{user.customStatus}</div>
-                                        )}
-                                    </div>
-                                </div>
+                                </UserContextMenu>
                             );
                         })}
                     </div>
