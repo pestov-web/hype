@@ -83,8 +83,9 @@ export function useVAD({ enabled, onSpeechStart, onSpeechEnd, sensitivity = 'med
         baseAssetPath = distPath;
         onnxWASMBasePath = `${distPath}onnxruntime-web/`;
     } else {
+        // В веб-версии WASM файлы скопированы в /onnxruntime-web/ через vite-plugin-static-copy
         baseAssetPath = `${window.location.origin}/`;
-        onnxWASMBasePath = `${window.location.origin}/node_modules/onnxruntime-web/dist/`;
+        onnxWASMBasePath = `${window.location.origin}/onnxruntime-web/`;
     }
 
     console.log('🎤 VAD paths:', { isElectron, baseAssetPath, onnxWASMBasePath });

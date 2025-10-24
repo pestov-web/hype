@@ -12,30 +12,28 @@ console.log('=== Vite Config ===');
 console.log('ENABLE_ELECTRON:', ENABLE_ELECTRON);
 console.log('NODE_ENV:', process.env.NODE_ENV);
 
-// https://vite.dev/config/
+// https://vite.dev/config/W
 export default defineConfig(({ command }) => {
     const isDev = command === 'serve';
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const plugins: any[] = [react()];
 
-    // Copy onnxruntime-web WASM files to dist for Electron builds
-    if (ENABLE_ELECTRON) {
-        plugins.push(
-            viteStaticCopy({
-                targets: [
-                    {
-                        src: 'node_modules/onnxruntime-web/dist/*.wasm',
-                        dest: 'onnxruntime-web',
-                    },
-                    {
-                        src: 'node_modules/onnxruntime-web/dist/*.mjs',
-                        dest: 'onnxruntime-web',
-                    },
-                ],
-            })
-        );
-    }
+    // Copy onnxruntime-web WASM files to dist (for both web and Electron builds)
+    plugins.push(
+        viteStaticCopy({
+            targets: [
+                {
+                    src: 'node_modules/onnxruntime-web/dist/*.wasm',
+                    dest: 'onnxruntime-web',
+                },
+                {
+                    src: 'node_modules/onnxruntime-web/dist/*.mjs',
+                    dest: 'onnxruntime-web',
+                },
+            ],
+        })
+    );
 
     // Only add Electron plugins if explicitly enabled
     if (ENABLE_ELECTRON) {
