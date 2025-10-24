@@ -3,8 +3,10 @@ packages:
   - backend
 
 onlyBuiltDependencies:
+  - '@parcel/watcher'
   - '@prisma/client'
   - '@prisma/engines'
+  - bcrypt
   - electron
   - esbuild
   - mediasoup

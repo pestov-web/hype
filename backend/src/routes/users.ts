@@ -3,7 +3,7 @@ import type { Router as ExpressRouter } from 'express';
 import { z } from 'zod';
 import { authenticateJWT, type AuthRequest } from '../middleware/auth.js';
 import { prisma } from '../config/database.js';
-import { Prisma } from '../generated/prisma/index.js';
+import { Prisma } from '@prisma/client';
 
 export const userRoutes: ExpressRouter = Router();
 
