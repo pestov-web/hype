@@ -47,6 +47,7 @@ export function useVAD({ enabled, onSpeechStart, onSpeechEnd, sensitivity = 'med
     console.log('🎤 useVAD called:', { enabled, sensitivity });
 
     const hasStartedRef = useRef(false);
+    const startingRef = useRef(false);
     const onSpeechStartRef = useRef(onSpeechStart);
     const onSpeechEndRef = useRef(onSpeechEnd);
     const lastReportedSpeakingRef = useRef(false);
@@ -117,20 +118,35 @@ export function useVAD({ enabled, onSpeechStart, onSpeechEnd, sensitivity = 'med
         });
 
         // Если нужно включить, модель загружена и ещё не запустили
-        if (enabled && !vad.loading && !vad.errored && !hasStartedRef.current) {
+        if (enabled && !vad.loading && !vad.errored && !hasStartedRef.current && !startingRef.current) {
             console.log(`✅ VAD: starting with ${sensitivity} sensitivity`);
             console.log('VAD config:', config);
             prevSensitivityRef.current = sensitivity;
-            hasStartedRef.current = true;
-            vad.start();
+            startingRef.current = true;
+
+            const startVAD = async () => {
+                try {
+                    await vad.start?.();
+                    hasStartedRef.current = true;
+                    console.log('🎯 VAD: start resolved, listening:', vad.listening);
+                } catch (error) {
+                    console.error('❌ VAD: failed to start', error);
+                    hasStartedRef.current = false;
+                } finally {
+                    startingRef.current = false;
+                }
+            };
+
+            startVAD();
             return;
         }
 
         // Если нужно выключить и мы запускали
         if (!enabled && hasStartedRef.current) {
             console.log('🛑 VAD: pausing');
+            startingRef.current = false;
             hasStartedRef.current = false;
-            vad.pause();
+            vad.pause?.();
 
             if (debounceTimerRef.current) {
                 clearTimeout(debounceTimerRef.current);
@@ -153,8 +169,9 @@ export function useVAD({ enabled, onSpeechStart, onSpeechEnd, sensitivity = 'med
         return () => {
             if (hasStartedRef.current) {
                 console.log('🧹 VAD: cleanup on unmount');
+                startingRef.current = false;
                 hasStartedRef.current = false;
-                vad.pause();
+                vad.pause?.();
             }
 
             if (debounceTimerRef.current) {
