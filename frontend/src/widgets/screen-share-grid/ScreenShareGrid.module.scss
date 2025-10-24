@@ -1,0 +1,107 @@
+@use '@shared/styles/variables' as *;
+@use '@shared/styles/mixins' as *;
+
+.screenShareGrid {
+    @include flex(column, flex-start, stretch);
+    flex: 1;
+    height: 100%;
+    background: $bg-primary;
+    padding: $spacing-lg;
+    gap: $spacing-lg;
+}
+
+.gridHeader {
+    @include flex(row, space-between, center);
+    padding-bottom: $spacing-md;
+    border-bottom: 1px solid $border-color;
+
+    h3 {
+        font-size: $font-size-xl;
+        font-weight: $font-weight-semibold;
+        color: $text-primary;
+        margin: 0;
+    }
+}
+
+.participantCount {
+    font-size: $font-size-sm;
+    color: $text-secondary;
+    background: $bg-tertiary;
+    padding: $spacing-xs $spacing-sm;
+    border-radius: $border-radius-md;
+}
+
+.screensContainer {
+    @include flex(column, flex-start, stretch);
+    gap: $spacing-lg;
+    overflow-y: auto;
+}
+
+.screenCard {
+    position: relative;
+    background: $bg-secondary;
+    border-radius: $border-radius-lg;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: transform $transition-normal, box-shadow $transition-normal;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+}
+
+.screenVideo {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: contain;
+    background: $bg-tertiary;
+}
+
+.screenLabel {
+    @include flex(row, flex-start, center);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    padding: $spacing-md $spacing-lg;
+    gap: $spacing-sm;
+}
+
+.screenIcon {
+    font-size: $font-size-lg;
+}
+
+.screenUser {
+    font-size: $font-size-md;
+    font-weight: $font-weight-medium;
+    color: $text-primary;
+}
+
+.emptyState {
+    @include flex(column, center, center);
+    flex: 1;
+    text-align: center;
+    color: $text-tertiary;
+    gap: $spacing-lg;
+
+    h3 {
+        font-size: $font-size-xl;
+        font-weight: $font-weight-semibold;
+        color: $text-secondary;
+        margin: 0;
+    }
+
+    p {
+        font-size: $font-size-md;
+        color: $text-tertiary;
+        margin: 0;
+        max-width: 400px;
+    }
+}
+
+.emptyIcon {
+    font-size: 64px;
+    opacity: 0.5;
+}

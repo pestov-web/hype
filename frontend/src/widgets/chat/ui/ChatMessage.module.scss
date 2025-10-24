@@ -1,0 +1,44 @@
+@use '@shared/styles/variables' as *;
+@use '@shared/styles/mixins' as *;
+
+.message {
+    @include flex(row, flex-start, flex-start);
+    gap: $spacing-md;
+    padding: $spacing-md $spacing-lg;
+    transition: background-color 0.15s ease;
+
+    &:hover {
+        background: $bg-hover;
+    }
+}
+
+.content {
+    @include flex(column, flex-start, stretch);
+    flex: 1;
+    gap: $spacing-xs;
+    min-width: 0; // Для правильного переноса текста
+}
+
+.header {
+    @include flex(row, flex-start, baseline);
+    gap: $spacing-sm;
+}
+
+.username {
+    font-weight: 600;
+    color: $text-primary;
+    font-size: 1rem;
+}
+
+.timestamp {
+    font-size: 0.75rem;
+    color: $text-tertiary;
+}
+
+.text {
+    color: $text-secondary;
+    font-size: 1rem;
+    line-height: 1.5;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}

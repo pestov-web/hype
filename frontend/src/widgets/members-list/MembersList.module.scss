@@ -1,0 +1,109 @@
+.membersList {
+    background: $bg-secondary;
+    height: 100%;
+    width: 240px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    padding: $spacing-lg;
+}
+
+.loading,
+.error,
+.empty {
+    padding: $spacing-lg;
+    text-align: center;
+    color: $text-muted;
+    font-size: $font-size-sm;
+}
+
+.error {
+    color: $text-danger;
+}
+
+.section {
+    margin-bottom: $spacing-xl;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.sectionHeader {
+    color: $text-muted;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: $spacing-md;
+    padding: 0 $spacing-sm;
+}
+
+.member {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    padding: $spacing-sm;
+    border-radius: $border-radius-sm;
+    cursor: pointer;
+    transition: $transition-fast;
+    position: relative;
+
+    &:hover {
+        background: $bg-modifier-hover;
+    }
+}
+
+.avatarWrapper {
+    position: relative;
+}
+
+.speakingIndicator {
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border-radius: $border-radius-round;
+    border: 3px solid $status-online;
+    box-shadow: 0 0 8px rgba(59, 165, 93, 0.6);
+    animation: speakingPulse 1.5s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes speakingPulse {
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.7;
+        transform: scale(1.05);
+    }
+}
+
+.memberInfo {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.memberName {
+    color: $text-primary;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.memberStatus {
+    color: $text-muted;
+    font-size: $font-size-xs;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

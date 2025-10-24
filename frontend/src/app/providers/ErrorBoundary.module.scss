@@ -1,0 +1,172 @@
+@use '@shared/styles/variables' as *;
+@use '@shared/styles/mixins' as *;
+@use 'sass:color';
+
+.errorBoundary {
+    @include flex(column, center, center);
+    min-height: 100vh;
+    width: 100%;
+    background: linear-gradient(135deg, $bg-primary 0%, $bg-secondary 100%);
+    padding: $spacing-xl;
+    color: $text-primary;
+}
+
+.errorContainer {
+    @include flex(column, flex-start, stretch);
+    max-width: 800px;
+    width: 100%;
+    background: $bg-secondary;
+    border-radius: $border-radius-lg;
+    padding: $spacing-xl;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    gap: $spacing-lg;
+}
+
+.errorHeader {
+    @include flex(row, flex-start, center);
+    gap: $spacing-md;
+    border-bottom: 2px solid $danger;
+    padding-bottom: $spacing-lg;
+
+    h1 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: $danger;
+        margin: 0;
+    }
+}
+
+.errorIcon {
+    width: 48px;
+    height: 48px;
+    color: $danger;
+    flex-shrink: 0;
+}
+
+.errorMessage {
+    @include flex(column, flex-start, stretch);
+    gap: $spacing-sm;
+
+    h2 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: $text-primary;
+        margin: 0;
+    }
+}
+
+.errorText {
+    background: $bg-tertiary;
+    border-left: 4px solid $danger;
+    padding: $spacing-md;
+    border-radius: $border-radius-md;
+    overflow-x: auto;
+    font-family: 'Courier New', monospace;
+    font-size: 0.875rem;
+    color: $danger;
+    margin: 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.errorStack {
+    background: $bg-tertiary;
+    border-radius: $border-radius-md;
+    padding: $spacing-md;
+
+    summary {
+        cursor: pointer;
+        font-weight: 600;
+        color: $text-secondary;
+        user-select: none;
+        padding: $spacing-sm 0;
+
+        &:hover {
+            color: $text-primary;
+        }
+    }
+
+    pre {
+        margin: $spacing-md 0 0;
+        padding: $spacing-md;
+        background: $bg-primary;
+        border-radius: $border-radius-sm;
+        overflow-x: auto;
+        font-family: 'Courier New', monospace;
+        font-size: 0.75rem;
+        color: $text-secondary;
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
+}
+
+.errorActions {
+    @include flex(row, center, center);
+    gap: $spacing-md;
+    margin-top: $spacing-md;
+}
+
+.resetButton,
+.backButton {
+    padding: $spacing-sm $spacing-lg;
+    border-radius: $border-radius-md;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    outline: none;
+
+    &:active {
+        transform: scale(0.98);
+    }
+}
+
+.resetButton {
+    background: $primary;
+    color: white;
+
+    &:hover {
+        background: color.adjust($primary, $lightness: 5%);
+    }
+}
+
+.backButton {
+    background: transparent;
+    color: $text-secondary;
+    border: 2px solid $border-color;
+
+    &:hover {
+        background: $bg-tertiary;
+        color: $text-primary;
+        border-color: $text-secondary;
+    }
+}
+
+.errorTips {
+    @include flex(column, flex-start, stretch);
+    gap: $spacing-sm;
+    margin-top: $spacing-md;
+    padding: $spacing-md;
+    background: $bg-tertiary;
+    border-radius: $border-radius-md;
+    border-left: 4px solid $warning;
+
+    h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        color: $text-primary;
+        margin: 0;
+    }
+
+    ul {
+        margin: 0;
+        padding-left: $spacing-lg;
+        color: $text-secondary;
+
+        li {
+            margin: $spacing-xs 0;
+            font-size: 0.875rem;
+        }
+    }
+}

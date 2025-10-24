@@ -1,0 +1,110 @@
+@use '@shared/styles/variables' as *;
+@use '@shared/styles/mixins' as *;
+
+.button {
+    @include button-reset;
+    @include flex-center;
+    @include transition(all);
+    @include focus-ring;
+
+    display: inline-flex;
+    gap: $spacing-sm;
+    font-weight: $font-weight-semibold;
+    border-radius: $border-radius-sm;
+    user-select: none;
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+}
+
+// Variants
+.primary {
+    background: $primary;
+    color: #fff;
+
+    &:hover:not(:disabled) {
+        background: $primary-hover;
+    }
+
+    &:active:not(:disabled) {
+        background: $primary-active;
+    }
+}
+
+.secondary {
+    background: $secondary;
+    color: $text-normal;
+
+    &:hover:not(:disabled) {
+        background: $secondary-hover;
+    }
+
+    &:active:not(:disabled) {
+        background: $secondary-active;
+    }
+}
+
+.danger {
+    background: $danger;
+    color: #fff;
+
+    &:hover:not(:disabled) {
+        background: $danger-hover;
+    }
+
+    &:active:not(:disabled) {
+        background: $danger-active;
+    }
+}
+
+.ghost {
+    background: transparent;
+    color: $text-normal;
+
+    &:hover:not(:disabled) {
+        background: $bg-modifier-hover;
+    }
+
+    &:active:not(:disabled) {
+        background: $bg-modifier;
+    }
+}
+
+.link {
+    background: transparent;
+    color: $text-link;
+    padding: 0;
+    height: auto;
+
+    &:hover:not(:disabled) {
+        text-decoration: underline;
+    }
+}
+
+// Sizes
+.sm {
+    height: 32px;
+    padding: 0 $spacing-md;
+    font-size: $font-size-sm;
+}
+
+.md {
+    height: 40px;
+    padding: 0 $spacing-lg;
+    font-size: $font-size-md;
+}
+
+.lg {
+    height: 48px;
+    padding: 0 $spacing-xl;
+    font-size: $font-size-lg;
+}
+
+.icon {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+}

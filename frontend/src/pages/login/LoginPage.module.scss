@@ -1,0 +1,190 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: $bg-primary;
+    padding: $spacing-lg;
+}
+
+.card {
+    background: $bg-secondary;
+    border-radius: $border-radius-lg;
+    padding: $spacing-xxl * 2;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.title {
+    color: $text-primary;
+    font-size: $font-size-xxl;
+    font-weight: $font-weight-bold;
+    margin: 0 0 $spacing-sm;
+    text-align: center;
+}
+
+.subtitle {
+    color: $text-secondary;
+    font-size: $font-size-md;
+    margin: 0 0 $spacing-xxl;
+    text-align: center;
+}
+
+.error {
+    background: rgba($danger, 0.1);
+    border: 1px solid $danger;
+    border-radius: $border-radius-sm;
+    color: $danger;
+    padding: $spacing-md;
+    margin-bottom: $spacing-lg;
+    font-size: $font-size-sm;
+}
+
+.errorHint {
+    margin-top: $spacing-sm;
+    font-size: $font-size-xs;
+    color: $text-secondary;
+}
+
+.inlineLink {
+    background: none;
+    border: none;
+    color: $text-link;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline;
+    transition: $transition-fast;
+
+    &:hover {
+        color: $primary;
+    }
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-lg;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+}
+
+.passwordField {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    .input {
+        width: 100%;
+        padding-right: 40px;
+    }
+}
+
+.passwordToggle {
+    position: absolute;
+    right: $spacing-md;
+    background: none;
+    border: none;
+    color: $text-muted;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: $transition-fast;
+
+    &:hover {
+        color: $text-primary;
+    }
+}
+
+.label {
+    color: $text-secondary;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.input {
+    background: $bg-tertiary;
+    border: 1px solid transparent;
+    border-radius: $border-radius-sm;
+    color: $text-primary;
+    padding: $spacing-md;
+    font-size: $font-size-md;
+    transition: $transition-normal;
+
+    &:hover {
+        border-color: $bg-modifier-hover;
+    }
+
+    &:focus {
+        border-color: $primary;
+        outline: none;
+    }
+
+    &::placeholder {
+        color: $text-muted;
+    }
+}
+
+.submitButton {
+    width: 100%;
+    margin-top: $spacing-sm;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    margin: $spacing-xxl 0;
+    color: $text-muted;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+
+    &::before,
+    &::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: $bg-modifier;
+    }
+}
+
+.guestForm {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+}
+
+.footer {
+    margin-top: $spacing-lg;
+    text-align: center;
+}
+
+.link {
+    background: none;
+    border: none;
+    color: $text-link;
+    font-size: $font-size-sm;
+    cursor: pointer;
+    padding: 0;
+    transition: $transition-fast;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.authOptions {
+    @include flex-column;
+    gap: $spacing-sm;
+}

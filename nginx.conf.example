@@ -1,0 +1,100 @@
+# Nginx Configuration for Hype
+# Copy this to /etc/nginx/sites-available/hype
+# Then: sudo ln -s /etc/nginx/sites-available/hype /etc/nginx/sites-enabled/
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name yourdomain.com www.yourdomain.com;
+
+    # Redirect HTTP to HTTPS (after SSL is configured)
+    # Uncomment after running certbot:
+    # return 301 https://$host$request_uri;
+
+    # Root directory for frontend static files
+    root /home/hype/hype/frontend/dist;
+    index index.html;
+
+    # Security headers
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-XSS-Protection "1; mode=block" always;
+
+    # Compression
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_types text/plain text/css text/xml text/javascript application/x-javascript application/xml+rss application/json application/javascript;
+
+    # Frontend static files
+    location / {
+        try_files $uri $uri/ /index.html;
+        
+        # Cache static assets
+        location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
+            expires 1y;
+            add_header Cache-Control "public, immutable";
+        }
+    }
+
+    # Backend API proxy
+    location /api {
+        proxy_pass http://localhost:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+        
+        # Timeouts
+        proxy_connect_timeout 60s;
+        proxy_send_timeout 60s;
+        proxy_read_timeout 60s;
+    }
+
+    # WebSocket proxy
+    location /ws {
+        proxy_pass http://localhost:8080;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        
+        # Long timeout for WebSocket connections
+        proxy_read_timeout 86400s;
+        proxy_send_timeout 86400s;
+    }
+
+    # Health check endpoint
+    location /health {
+        proxy_pass http://localhost:3001/health;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        access_log off;
+    }
+
+    # Logs
+    access_log /var/log/nginx/hype_access.log;
+    error_log /var/log/nginx/hype_error.log;
+}
+
+# HTTPS configuration (created automatically by certbot)
+# server {
+#     listen 443 ssl http2;
+#     listen [::]:443 ssl http2;
+#     server_name yourdomain.com www.yourdomain.com;
+#
+#     # SSL certificates (managed by certbot)
+#     ssl_certificate /etc/letsencrypt/live/yourdomain.com/fullchain.pem;
+#     ssl_certificate_key /etc/letsencrypt/live/yourdomain.com/privkey.pem;
+#     include /etc/letsencrypt/options-ssl-nginx.conf;
+#     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+#
+#     # ... (same configuration as above)
+# }

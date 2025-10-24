@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String   @id @default(cuid())
+  username      String
+  email         String   @unique
+  discriminator String
+  status        String   @default("offline") // online, idle, dnd, offline
+  avatar        String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  messages    Message[]
+  voiceStates VoiceState[]
+
+  @@map("users")
+}
+
+model Channel {
+  id          String   @id @default(cuid())
+  name        String
+  type        String // text, voice
+  description String?
+  position    Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  messages    Message[]
+  voiceStates VoiceState[]
+
+  @@map("channels")
+}
+
+model Message {
+  id        String    @id @default(cuid())
+  content   String
+  type      String    @default("text") // text, image, file, system
+  editedAt  DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  // Relations
+  authorId  String
+  author    User    @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  channelId String
+  channel   Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+
+  @@map("messages")
+}
+
+model VoiceState {
+  id           String   @id @default(cuid())
+  muted        Boolean  @default(false)
+  deafened     Boolean  @default(false)
+  selfMuted    Boolean  @default(false)
+  selfDeafened Boolean  @default(false)
+  streaming    Boolean  @default(false)
+  speaking     Boolean  @default(false)
+  joinedAt     DateTime @default(now())
+
+  // Relations
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  channelId String
+  channel   Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, channelId])
+  @@map("voice_states")
+}

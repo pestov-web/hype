@@ -1,0 +1,86 @@
+@use '@shared/styles/variables' as *;
+@use '@shared/styles/mixins' as *;
+@use 'sass:color';
+
+.messagesContainer {
+    @include flex(column, flex-start, stretch);
+    flex: 1;
+    overflow-y: auto;
+    background: $bg-primary;
+}
+
+.messagesList {
+    @include flex(column, flex-start, stretch);
+    padding: $spacing-md 0;
+}
+
+.loading {
+    @include flex(column, center, center);
+    flex: 1;
+    gap: $spacing-md;
+    color: $text-secondary;
+
+    p {
+        margin: 0;
+        font-size: 1rem;
+    }
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid $bg-tertiary;
+    border-top-color: $primary;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.empty {
+    @include flex(column, center, center);
+    flex: 1;
+    gap: $spacing-sm;
+    color: $text-tertiary;
+    padding: $spacing-xxl;
+
+    p {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: $text-secondary;
+    }
+
+    span {
+        font-size: 0.875rem;
+    }
+}
+
+.emptyIcon {
+    width: 64px;
+    height: 64px;
+    opacity: 0.5;
+    margin-bottom: $spacing-md;
+}
+
+// Custom scrollbar
+.messagesContainer::-webkit-scrollbar {
+    width: 8px;
+}
+
+.messagesContainer::-webkit-scrollbar-track {
+    background: $bg-primary;
+}
+
+.messagesContainer::-webkit-scrollbar-thumb {
+    background: $bg-tertiary;
+    border-radius: 4px;
+
+    &:hover {
+        background: color.adjust($bg-tertiary, $lightness: 10%);
+    }
+}

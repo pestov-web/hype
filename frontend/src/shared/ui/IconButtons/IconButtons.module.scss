@@ -1,0 +1,40 @@
+@use 'sass:color';
+
+.icon-button {
+    width: 32px;
+    height: 32px;
+    border-radius: $border-radius-md;
+    background-color: $bg-modifier;
+    border: none;
+    color: $interactive-normal;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all $transition-fast;
+
+    &:hover {
+        background-color: $bg-modifier-hover;
+        color: $interactive-hover;
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
+    &.muted {
+        background-color: $danger;
+        color: $text-primary;
+
+        &:hover {
+            background-color: $danger-hover;
+        }
+    }
+    &.active {
+        background-color: $success;
+        color: $text-primary;
+
+        &:hover {
+            background-color: color.adjust($success, $lightness: -10%);
+        }
+    }
+}

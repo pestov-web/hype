@@ -1,0 +1,116 @@
+@use '@shared/styles/variables' as *;
+@use '@shared/styles/mixins' as *;
+@use 'sass:color';
+
+.chatInput {
+    @include flex(column, flex-start, stretch);
+    padding: $spacing-lg;
+    background: $bg-primary;
+    border-top: 1px solid $border-color;
+}
+
+.inputWrapper {
+    @include flex(row, flex-start, flex-end);
+    gap: $spacing-md;
+    background: $bg-secondary;
+    border-radius: $border-radius-lg;
+    padding: $spacing-sm $spacing-md;
+    transition: border-color 0.2s ease;
+    border: 2px solid transparent;
+
+    &:focus-within {
+        border-color: $primary;
+    }
+}
+
+.textarea {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: $text-primary;
+    font-size: 1rem;
+    font-family: inherit;
+    resize: none;
+    min-height: 24px;
+    max-height: 120px;
+    overflow-y: auto;
+    padding: $spacing-xs 0;
+
+    &::placeholder {
+        color: $text-tertiary;
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    // Custom scrollbar
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: $bg-tertiary;
+        border-radius: 3px;
+
+        &:hover {
+            background: color.adjust($bg-tertiary, $lightness: 10%);
+        }
+    }
+}
+
+.sendButton {
+    @include flex(row, center, center);
+    width: 36px;
+    height: 36px;
+    border-radius: $border-radius-md;
+    border: none;
+    background: $primary;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+
+    svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    &:hover:not(:disabled) {
+        background: color.adjust($primary, $lightness: 5%);
+        transform: scale(1.05);
+    }
+
+    &:active:not(:disabled) {
+        transform: scale(0.98);
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}
+
+.hint {
+    @include flex(row, flex-start, center);
+    gap: $spacing-xs;
+    margin-top: $spacing-xs;
+    font-size: 0.75rem;
+    color: $text-tertiary;
+
+    kbd {
+        padding: 2px 6px;
+        background: $bg-tertiary;
+        border-radius: $border-radius-sm;
+        font-family: 'Courier New', monospace;
+        font-size: 0.7rem;
+        color: $text-secondary;
+        border: 1px solid $border-color;
+    }
+}

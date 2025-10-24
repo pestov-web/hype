@@ -1,0 +1,15 @@
+@use '@shared/styles/variables' as *;
+@use '@shared/styles/mixins' as *;
+
+.layout {
+    @include flex(row, flex-start, stretch);
+    height: 100vh;
+    width: 100%;
+    background: $bg-primary;
+}
+
+.channelsContainer {
+    @include flex(row, flex-start, stretch);
+    flex: 1;
+    position: relative;
+}

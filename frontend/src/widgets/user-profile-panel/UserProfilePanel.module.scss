@@ -1,0 +1,80 @@
+.userProfilePanel {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    width: 290px;
+    background-color: $bg-secondary;
+    border: $border-thin;
+    border-radius: $border-radius-md;
+    box-shadow: $border-shadow-lg;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+}
+
+// User Info (всегда видна)
+.userInfo {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    padding: $spacing-md;
+    position: relative;
+}
+
+.avatarWrapper {
+    position: relative;
+}
+
+.speakingIndicator {
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border-radius: $border-radius-round;
+    border: 3px solid $status-online;
+    box-shadow: 0 0 8px rgba(59, 165, 93, 0.6);
+    animation: speakingPulse 1.5s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes speakingPulse {
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.7;
+        transform: scale(1.05);
+    }
+}
+
+.userDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    min-width: 0; // Для корректного text-overflow
+}
+
+.username {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.status {
+    font-size: $font-size-xs;
+    color: $text-secondary;
+}
+
+.voiceControls {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    padding: 0 $spacing-md $spacing-md $spacing-md;
+}

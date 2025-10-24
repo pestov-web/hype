@@ -1,0 +1,251 @@
+@use '@shared/styles/variables' as *;
+@use '@shared/styles/mixins' as *;
+
+.channelSidebar {
+    @include flex-column;
+    width: 240px;
+    min-width: 240px;
+    background-color: $bg-secondary;
+    height: 100%;
+    overflow: hidden;
+}
+
+.serverHeader {
+    @include flex-between;
+    align-items: center;
+    padding: $spacing-md $spacing-sm;
+    border-bottom: 1px solid $border-color;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+
+    h2 {
+        font-size: $font-size-md;
+        font-weight: $font-weight-bold;
+        color: $text-primary;
+        margin: 0;
+    }
+}
+
+.channelsContainer {
+    @include flex-column;
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    @include custom-scrollbar;
+    padding: $spacing-sm 0;
+    padding-bottom: 80px; // Отступ для UserProfilePanel
+}
+
+.channelCategory {
+    @include flex-column;
+    margin-bottom: $spacing-md;
+}
+
+.categoryHeader {
+    @include flex-between;
+    align-items: center;
+    padding: $spacing-xs $spacing-sm;
+    cursor: pointer;
+    transition: $transition-fast;
+
+    &:hover {
+        background-color: rgba($text-primary, 0.05);
+    }
+}
+
+.categoryIcon {
+    font-size: $font-size-sm;
+    margin-right: $spacing-xs;
+}
+
+.categoryName {
+    flex: 1;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    color: $text-tertiary;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.channelsList {
+    @include flex-column;
+    gap: $spacing-xs;
+}
+
+.channelItem {
+    @include flex;
+    align-items: center;
+    padding: $spacing-xs $spacing-sm;
+    margin: 0 $spacing-xs;
+    border-radius: $border-radius-sm;
+    cursor: pointer;
+    transition: $transition-fast;
+    color: $text-tertiary;
+
+    &:hover {
+        background-color: $bg-hover;
+        color: $text-primary;
+    }
+
+    &:active {
+        background-color: $bg-active;
+    }
+}
+
+.voiceChannel {
+    @include flex-between;
+    // Специфичные стили для голосовых каналов
+}
+
+.channelIcon {
+    font-size: $font-size-lg;
+    margin-right: $spacing-sm;
+    color: currentColor;
+}
+
+.channelName {
+    flex: 1;
+    font-size: $font-size-md;
+    font-weight: $font-weight-medium;
+    @include truncate;
+}
+
+.voiceUsersCount {
+    font-size: $font-size-xs;
+    color: $text-tertiary;
+    margin-left: auto;
+    padding-left: $spacing-xs;
+}
+
+.settingsButton,
+.addChannelButton {
+    @include flex-center;
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: $text-tertiary;
+    cursor: pointer;
+    border-radius: $border-radius-sm;
+    transition: $transition-fast;
+
+    &:hover {
+        color: $text-primary;
+        background: rgba($text-primary, 0.1);
+    }
+
+    svg {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+.addChannelButton {
+    font-size: 16px;
+    line-height: 1;
+}
+
+.disconnectButton {
+    @include flex-center;
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    margin-left: $spacing-xs;
+    border: none;
+    background: transparent;
+    color: $text-tertiary;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: $transition-fast;
+    font-size: 12px;
+    line-height: 1;
+
+    &:hover {
+        color: $text-danger;
+        background: rgba($text-danger, 0.1);
+    }
+}
+
+.active {
+    background-color: $bg-active !important;
+    color: $text-primary !important;
+}
+
+// Список участников голосового канала
+.voiceParticipants {
+    @include flex-column;
+    padding-left: $spacing-xl;
+    margin-top: $spacing-xs;
+    gap: $spacing-xs;
+}
+
+.participant {
+    @include flex;
+    align-items: center;
+    padding: $spacing-xs $spacing-sm;
+    margin: 0 $spacing-xs;
+    border-radius: $border-radius-sm;
+    transition: $transition-fast;
+
+    &:hover {
+        background-color: $bg-hover;
+    }
+}
+
+.avatarWrapper {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.speakingIndicator {
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: $border-radius-round;
+    border: 2px solid $status-online;
+    box-shadow: 0 0 6px rgba(59, 165, 93, 0.6);
+    animation: speakingPulse 1.5s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes speakingPulse {
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.7;
+        transform: scale(1.05);
+    }
+}
+
+.participantInfo {
+    @include flex;
+    align-items: center;
+    justify-content: space-between;
+    flex: 1;
+    margin-left: $spacing-sm;
+    min-width: 0;
+}
+
+.participantName {
+    font-size: $font-size-sm;
+    color: $text-secondary;
+    @include truncate;
+}
+
+.participantIcons {
+    @include flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-xs;
+    margin-left: $spacing-xs;
+    flex-shrink: 0;
+
+    svg {
+        display: block;
+    }
+}

@@ -1,0 +1,102 @@
+// Discord-like color palette
+$primary: #5865f2;
+$primary-hover: #4752c4;
+$primary-active: #3c45a5;
+
+$secondary: #4f545c;
+$secondary-hover: #686d73;
+$secondary-active: #5c6269;
+
+$danger: #ed4245;
+$danger-hover: #c03537;
+$danger-active: #a12d2f;
+
+$success: #3ba55d;
+$warning: #faa81a;
+
+// Background colors
+$bg-primary: #36393f;
+$bg-secondary: #2f3136;
+$bg-tertiary: #202225;
+$bg-modifier: #40444b;
+$bg-modifier-hover: #4f545c;
+$bg-hover: rgba(79, 84, 92, 0.16);
+$bg-active: rgba(79, 84, 92, 0.24);
+
+// Border colors
+$border-color: rgba(0, 0, 0, 0.2);
+$border-hover: rgba(0, 0, 0, 0.3);
+
+// Text colors
+$text-primary: #ffffff;
+$text-secondary: #b9bbbe;
+$text-tertiary: #8e9297;
+$text-normal: #dcddde;
+$text-muted: #72767d;
+$text-link: #00aff4;
+$text-positive: #3ba55d;
+$text-warning: #faa81a;
+$text-danger: #ed4245;
+
+// Header colors
+$header-primary: #ffffff;
+$header-secondary: #b9bbbe;
+
+// Interactive colors
+$interactive-normal: #b9bbbe;
+$interactive-hover: #dcddde;
+$interactive-active: #ffffff;
+$interactive-muted: #4f545c;
+
+// Status colors
+$status-online: #3ba55d;
+$status-idle: #faa81a;
+$status-dnd: #ed4245;
+$status-offline: #747f8d;
+
+// Spacing
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 12px;
+$spacing-lg: 16px;
+$spacing-xl: 20px;
+$spacing-xxl: 24px;
+
+// Border radius
+$border-radius-sm: 4px;
+$border-radius-md: 8px;
+$border-radius-lg: 12px;
+$border-radius-round: 50%;
+
+// Transitions
+$transition-fast: 0.1s ease;
+$transition-normal: 0.2s ease;
+$transition-slow: 0.3s ease;
+
+// Font sizes
+$font-size-xs: 12px;
+$font-size-sm: 14px;
+$font-size-md: 16px;
+$font-size-lg: 18px;
+$font-size-xl: 20px;
+$font-size-xxl: 24px;
+
+// Font weights
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+// Z-index layers
+$z-dropdown: 1000;
+$z-modal: 2000;
+$z-tooltip: 3000;
+
+// Shadows
+$border-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
+$border-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+$border-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.2);
+
+// borders
+$border-thin: 1px solid $border-color;
+$border-thick: 2px solid $border-color;

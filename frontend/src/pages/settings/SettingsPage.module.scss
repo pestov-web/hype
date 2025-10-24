@@ -1,0 +1,342 @@
+.settingsPage {
+    @include flex(row, flex-start, stretch);
+    height: 100vh;
+    background: $bg-primary;
+    color: $text-primary;
+    width: 100%;
+}
+
+.settingsSidebar {
+    width: 250px;
+    background: $bg-secondary;
+    padding: 24px 16px;
+    border-right: 1px solid $bg-tertiary;
+
+    h2 {
+        margin: 0 0 20px;
+        font-size: 14px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: $text-secondary;
+    }
+}
+
+.settingsNav {
+    @include flex(column, flex-start, stretch);
+    gap: 4px;
+}
+
+.navItem {
+    padding: 10px 12px;
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    color: $text-secondary;
+    font-size: 15px;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+
+    &:hover {
+        background: $bg-hover;
+        color: $text-primary;
+    }
+
+    &.active {
+        background: $primary;
+        color: #fff;
+    }
+}
+
+.settingsContent {
+    flex: 1;
+
+    align-items: center;
+    padding: 40px 60px;
+    overflow-y: auto;
+}
+
+.settingsHeader {
+    @include flex(row, space-between, center);
+    margin-bottom: 32px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid $bg-tertiary;
+
+    h1 {
+        margin: 0;
+        font-size: 24px;
+        font-weight: 600;
+        color: #fff;
+    }
+}
+
+.settingsSection {
+    margin-bottom: 32px;
+
+    h3 {
+        margin: 0 0 12px;
+        font-size: 14px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: $text-secondary;
+    }
+}
+
+.settingsInput,
+.settingsTextarea,
+.settingsSelect {
+    width: 100%;
+    max-width: 500px;
+    padding: 12px 16px;
+    background: $bg-tertiary;
+    border: 1px solid $bg-tertiary;
+    border-radius: 4px;
+    color: $text-primary;
+    font-size: 15px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s;
+    cursor: pointer;
+
+    &:focus {
+        border-color: $primary;
+    }
+}
+
+.settingsSelect {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b9bbbe' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 20px;
+    padding-right: 40px;
+}
+
+.settingsTextarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.settingsActions {
+    @include flex(row, flex-start, center);
+    gap: 12px;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid $bg-tertiary;
+}
+
+.settingsDescription {
+    margin: 8px 0 16px;
+    font-size: 14px;
+    color: $text-secondary;
+    line-height: 1.5;
+}
+
+.settingsSlider {
+    width: 100%;
+    max-width: 500px;
+    height: 8px;
+    background: $bg-tertiary;
+    border-radius: 4px;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+
+    &::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 18px;
+        height: 18px;
+        background: $primary;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: background 0.2s;
+
+        &:hover {
+            background: $primary-hover;
+        }
+    }
+
+    &::-moz-range-thumb {
+        width: 18px;
+        height: 18px;
+        background: $primary;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: background 0.2s;
+
+        &:hover {
+            background: $primary-hover;
+        }
+    }
+}
+
+.micTestContainer {
+    @include flex(column, flex-start, stretch);
+    gap: 16px;
+    max-width: 500px;
+}
+
+.volumeIndicatorContainer {
+    @include flex(row, flex-start, center);
+    gap: 12px;
+}
+
+.volumeBarBackground {
+    flex: 1;
+    height: 24px;
+    background: $bg-tertiary;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.volumeBarFill {
+    height: 100%;
+    transition: width 0.1s ease, background-color 0.3s ease;
+    border-radius: 4px;
+}
+
+.volumeText {
+    min-width: 50px;
+    font-size: 14px;
+    font-weight: 600;
+    color: $text-primary;
+    text-align: right;
+}
+
+.cameraTestContainer {
+    @include flex(column, flex-start, stretch);
+    gap: 16px;
+    max-width: 640px;
+}
+
+.videoPreviewContainer {
+    width: 100%;
+    max-width: 640px;
+    min-height: 360px; // Минимальная высота вместо aspect-ratio
+    background: $bg-tertiary;
+    border-radius: $border-radius-md;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.videoPreview {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; // Изменено с cover на contain для показа всего экрана
+    display: block;
+    background: $bg-tertiary;
+}
+
+.screenShareLabel {
+    position: absolute;
+    bottom: $spacing-md;
+    left: $spacing-md;
+    padding: $spacing-sm $spacing-md;
+    background: rgba(0, 0, 0, 0.85);
+    color: $text-primary;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    border-radius: $border-radius-sm;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+// Voice mode settings
+.voiceModeOptions {
+    @include flex(column, flex-start, stretch);
+    gap: $spacing-md;
+    max-width: 600px;
+}
+
+.radioOption {
+    @include flex(row, flex-start, center);
+    gap: $spacing-md;
+    padding: $spacing-lg;
+    background: $bg-tertiary;
+    border: 2px solid transparent;
+    border-radius: $border-radius-md;
+    cursor: pointer;
+    transition: all $transition-normal;
+
+    input[type='radio'] {
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        margin: 0;
+        cursor: pointer;
+        accent-color: $primary;
+    }
+
+    &:hover {
+        background: $bg-modifier;
+        border-color: $primary;
+    }
+
+    input[type='radio']:checked + .radioLabel {
+        color: $text-primary;
+    }
+}
+
+.radioLabel {
+    @include flex(column, flex-start, flex-start);
+    gap: $spacing-xs;
+    flex: 1;
+
+    strong {
+        font-size: $font-size-md;
+        font-weight: $font-weight-semibold;
+        color: $text-primary;
+    }
+}
+
+.radioDescription {
+    font-size: $font-size-sm;
+    color: $text-secondary;
+    line-height: 1.4;
+}
+
+.vadWarning {
+    padding: $spacing-md;
+    background: rgba($warning, 0.1);
+    border-left: 4px solid $warning;
+    border-radius: $border-radius-md;
+    margin-bottom: $spacing-lg;
+    max-width: 600px;
+
+    strong {
+        color: $warning;
+    }
+}
+
+.vadInfo {
+    padding: $spacing-lg;
+    background: $bg-tertiary;
+    border-left: 4px solid $success;
+    border-radius: $border-radius-md;
+    max-width: 600px;
+
+    p {
+        margin: $spacing-sm 0;
+        font-size: $font-size-sm;
+        color: $text-secondary;
+        line-height: 1.5;
+
+        &:first-child {
+            margin-top: 0;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        strong {
+            color: $text-primary;
+        }
+    }
+}

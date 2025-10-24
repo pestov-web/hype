@@ -1,0 +1,306 @@
+// Prisma Schema для Hype - Discord-like приложение
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// USER MODELS
+// ============================================
+
+model User {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Основная информация
+  username    String  @unique
+  displayName String?
+  email       String? @unique // null для гостей
+  avatarUrl   String?
+  bio         String?
+
+  // Тип пользователя
+  isGuest Boolean @default(false) // true = гость (только username, без email/password)
+
+  // Локальная авторизация (только для авторизованных пользователей)
+  passwordHash String? // null для гостей и OAuth пользователей
+
+  // OAuth провайдеры (только для авторизованных пользователей)
+  githubId   String? @unique
+  googleId   String? @unique
+  discordId  String? @unique
+
+  // Статус и настройки
+  status       UserStatus @default(OFFLINE)
+  customStatus String?
+  isOnline     Boolean    @default(false)
+  lastSeenAt   DateTime   @default(now())
+
+  // Отношения
+  ownedServers     Server[]           @relation("ServerOwner")
+  serverMembers    ServerMember[]
+  messages         Message[]
+  reactions        MessageReaction[]
+  voiceStates      VoiceState[]
+  createdChannels  Channel[]          @relation("ChannelCreator")
+  sentFriendReqs   FriendRequest[]    @relation("FriendRequestSender")
+  receivedFriendReqs FriendRequest[] @relation("FriendRequestReceiver")
+
+  @@index([email])
+  @@index([username])
+  @@index([isGuest])
+  @@map("users")
+}
+
+enum UserStatus {
+  ONLINE
+  IDLE
+  DND // Do Not Disturb
+  OFFLINE
+}
+
+// ============================================
+// SERVER (GUILD) MODELS
+// ============================================
+
+model Server {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name        String
+  description String?
+  iconUrl     String?
+  bannerUrl   String?
+  ownerId     String
+
+  // Отношения
+  owner    User           @relation("ServerOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  members  ServerMember[]
+  channels Channel[]
+  roles    Role[]
+  invites  Invite[]
+
+  @@index([ownerId])
+  @@map("servers")
+}
+
+model ServerMember {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId   String
+  serverId String
+  nickname String?
+  joinedAt DateTime @default(now())
+
+  // Отношения
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  server Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  roles  Role[]
+
+  @@unique([userId, serverId])
+  @@index([userId])
+  @@index([serverId])
+  @@map("server_members")
+}
+
+model Role {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name        String
+  color       String? // HEX color
+  position    Int     @default(0)
+  permissions Int     @default(0) // Bitfield для прав
+  serverId    String
+
+  // Отношения
+  server  Server         @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  members ServerMember[]
+
+  @@index([serverId])
+  @@map("roles")
+}
+
+// ============================================
+// CHANNEL MODELS
+// ============================================
+
+model Channel {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name      String
+  type      ChannelType
+  topic     String?
+  position  Int         @default(0)
+  serverId  String
+  createdById String   // ID пользователя, создавшего канал (только владелец сервера)
+
+  // Voice channel специфичные поля
+  userLimit Int? // null = без лимита
+  bitrate   Int? // в kbps
+
+  // Отношения
+  server       Server       @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  createdBy    User         @relation("ChannelCreator", fields: [createdById], references: [id], onDelete: Restrict)
+  messages     Message[]
+  voiceStates  VoiceState[]
+
+  @@index([serverId])
+  @@index([type])
+  @@index([createdById])
+  @@map("channels")
+}
+
+enum ChannelType {
+  TEXT
+  VOICE
+  ANNOUNCEMENT
+}
+
+// ============================================
+// MESSAGE MODELS
+// ============================================
+
+model Message {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  content   String
+  edited    Boolean @default(false)
+  authorId  String
+  channelId String
+
+  // Отношения
+  author     User              @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  channel    Channel           @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  reactions  MessageReaction[]
+  attachments Attachment[]
+
+  @@index([channelId, createdAt])
+  @@index([authorId])
+  @@map("messages")
+}
+
+model MessageReaction {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  emoji     String
+  messageId String
+  userId    String
+
+  // Отношения
+  message Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([messageId, userId, emoji])
+  @@index([messageId])
+  @@map("message_reactions")
+}
+
+model Attachment {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  filename  String
+  url       String // URL в MinIO
+  size      Int // в байтах
+  mimeType  String
+  messageId String
+
+  // Отношения
+  message Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+  @@index([messageId])
+  @@map("attachments")
+}
+
+// ============================================
+// VOICE MODELS
+// ============================================
+
+model VoiceState {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId    String
+  channelId String
+  serverId  String? // Для DM звонков может быть null
+
+  // Состояние
+  muted     Boolean @default(false)
+  deafened  Boolean @default(false)
+  streaming Boolean @default(false)
+  video     Boolean @default(false)
+
+  // Отношения
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  channel Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, channelId])
+  @@index([channelId])
+  @@map("voice_states")
+}
+
+// ============================================
+// SOCIAL MODELS
+// ============================================
+
+model FriendRequest {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  senderId   String
+  receiverId String
+  status     FriendRequestStatus @default(PENDING)
+
+  // Отношения
+  sender   User @relation("FriendRequestSender", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver User @relation("FriendRequestReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  @@unique([senderId, receiverId])
+  @@index([receiverId])
+  @@map("friend_requests")
+}
+
+enum FriendRequestStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+}
+
+// ============================================
+// INVITE MODELS
+// ============================================
+
+model Invite {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  expiresAt DateTime?
+
+  code     String   @unique
+  uses     Int      @default(0)
+  maxUses  Int?     // null = безлимит
+  serverId String
+
+  // Отношения
+  server Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
+
+  @@index([serverId])
+  @@map("invites")
+}

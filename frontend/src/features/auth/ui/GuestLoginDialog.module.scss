@@ -1,0 +1,175 @@
+@use '@shared/styles/variables' as *;
+@use '@shared/styles/mixins' as *;
+
+.overlay {
+    background-color: rgba(0, 0, 0, 0.85);
+    position: fixed;
+    inset: 0;
+    z-index: $z-modal;
+    animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.content {
+    @include card;
+    background-color: $bg-primary;
+    border-radius: $border-radius-md;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90vw;
+    max-width: 440px;
+    max-height: 85vh;
+    padding: $spacing-xxl;
+    z-index: $z-modal + 1;
+    animation: slideIn 0.2s ease-out;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -48%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+.title {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: $text-primary;
+    margin: 0 0 $spacing-md 0;
+    text-align: center;
+}
+
+.description {
+    font-size: $font-size-sm;
+    color: $text-secondary;
+    margin: 0 0 $spacing-xl 0;
+    text-align: center;
+    line-height: 1.5;
+}
+
+.form {
+    @include flex-column;
+    gap: $spacing-lg;
+}
+
+.inputGroup {
+    @include flex-column;
+    gap: $spacing-sm;
+}
+
+.label {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    color: $text-secondary;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.input {
+    @include button-reset;
+    background-color: $bg-tertiary;
+    border: 1px solid transparent;
+    border-radius: $border-radius-sm;
+    color: $text-primary;
+    font-size: $font-size-md;
+    padding: $spacing-md;
+    transition: $transition-fast;
+    width: 100%;
+
+    &:hover {
+        border-color: $border-hover;
+    }
+
+    &:focus {
+        border-color: $primary;
+        outline: none;
+    }
+
+    &::placeholder {
+        color: $text-muted;
+    }
+}
+
+.error {
+    color: $danger;
+    font-size: $font-size-xs;
+    margin-top: -$spacing-xs;
+}
+
+.actions {
+    @include flex-column;
+    gap: $spacing-sm;
+}
+
+.divider {
+    @include flex-center;
+    color: $text-tertiary;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: $spacing-sm 0;
+    position: relative;
+
+    &::before,
+    &::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background-color: $border-color;
+    }
+
+    span {
+        padding: 0 $spacing-md;
+    }
+}
+
+.authOptions {
+    @include flex-column;
+    gap: $spacing-sm;
+}
+
+.closeButton {
+    @include button-reset;
+    @include flex-center;
+    position: absolute;
+    top: $spacing-md;
+    right: $spacing-md;
+    width: 32px;
+    height: 32px;
+    border-radius: $border-radius-sm;
+    color: $text-muted;
+    transition: $transition-fast;
+
+    &:hover {
+        background-color: $bg-modifier-hover;
+        color: $text-primary;
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
+
+    &:focus {
+        @include focus-ring;
+    }
+}

@@ -1,0 +1,36 @@
+@use '@shared/styles/variables' as *;
+@use '@shared/styles/mixins' as *;
+
+.chat {
+    @include flex(column, flex-start, stretch);
+    flex: 1; // Заполнить всю доступную ширину
+    height: 100%;
+    background: $bg-primary;
+}
+
+.header {
+    @include flex(row, space-between, center);
+    padding: $spacing-md $spacing-lg;
+    background: $bg-primary;
+    border-bottom: 1px solid $border-color;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+    z-index: 10;
+}
+
+.channelInfo {
+    @include flex(row, flex-start, center);
+    gap: $spacing-md;
+}
+
+.channelIcon {
+    width: 24px;
+    height: 24px;
+    color: $text-tertiary;
+}
+
+.channelName {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: $text-primary;
+    margin: 0;
+}

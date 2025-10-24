@@ -1,0 +1,52 @@
+@use '@shared/styles/variables' as *;
+@use '@shared/styles/mixins' as *;
+
+.pageContainer {
+    @include flex(row, flex-start, stretch);
+    flex: 1;
+    height: 100%;
+    width: 100%;
+}
+
+.emptyState {
+    @include flex(column, center, center);
+    flex: 1;
+    color: $text-tertiary;
+    font-size: 1.25rem;
+
+    p {
+        margin: 0;
+    }
+}
+
+.voiceChannel {
+    @include flex(column, center, center);
+    flex: 1;
+    background: $bg-primary;
+}
+
+.voiceInfo {
+    @include flex(column, center, center);
+    gap: $spacing-lg;
+    padding: $spacing-xxl;
+    text-align: center;
+
+    h2 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: $text-primary;
+        margin: 0;
+    }
+
+    p {
+        font-size: 1rem;
+        color: $text-secondary;
+        margin: 0;
+    }
+}
+
+.voiceIcon {
+    width: 64px;
+    height: 64px;
+    color: $text-tertiary;
+}

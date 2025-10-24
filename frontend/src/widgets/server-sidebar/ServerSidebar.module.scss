@@ -1,0 +1,95 @@
+@use '@shared/styles/variables' as *;
+@use '@shared/styles/mixins' as *;
+
+.serverSidebar {
+    @include flex(column, flex-start, center);
+    width: 72px;
+    height: 100vh;
+    background: $bg-tertiary;
+    padding: $spacing-xs 0;
+    gap: $spacing-xs;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    @include custom-scrollbar;
+}
+
+.serverItem {
+    position: relative;
+    @include flex(row, center, center);
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &::before {
+        content: '';
+        position: absolute;
+        left: -8px;
+        width: 4px;
+        height: 0;
+        background: $text-primary;
+        border-radius: 0 4px 4px 0;
+        transition: height 0.2s ease;
+    }
+
+    &:hover::before {
+        height: 20px;
+    }
+
+    &.active::before {
+        height: 40px;
+    }
+
+    &:hover .serverIcon {
+        border-radius: $border-radius-md;
+        background: $primary;
+    }
+}
+
+.serverIcon {
+    @include flex(row, center, center);
+    width: 48px;
+    height: 48px;
+    border-radius: $border-radius-round;
+    background: $bg-secondary;
+    color: $text-secondary;
+    font-size: $font-size-xl;
+    font-weight: $font-weight-semibold;
+    overflow: hidden;
+    transition: all 0.2s ease;
+
+    svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    span {
+        color: $text-primary;
+    }
+}
+
+.createServer {
+    background: transparent;
+    border: 2px dashed $border-color;
+    color: $success;
+
+    &:hover {
+        border-color: $success;
+        background: rgba($success, 0.1);
+    }
+}
+
+.separator {
+    width: 32px;
+    height: 2px;
+    background: $border-color;
+    border-radius: 2px;
+    margin: $spacing-xs 0;
+}

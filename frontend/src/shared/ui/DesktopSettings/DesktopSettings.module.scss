@@ -1,0 +1,90 @@
+.desktopSettings {
+    padding: 20px;
+}
+
+.settingsHeader {
+    margin-bottom: 30px;
+}
+
+.settingsHeader h3 {
+    margin: 0 0 8px 0;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.appVersion {
+    margin: 0;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.settingsSection {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: var(--bg-secondary);
+    border-radius: 8px;
+}
+
+.settingsSection h4 {
+    margin: 0 0 12px 0;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.settingsSection p {
+    margin: 0 0 16px 0;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.buttonGroup {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.infoSection {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: var(--bg-tertiary);
+    border-radius: 8px;
+}
+
+.infoSection h4 {
+    margin: 0 0 16px 0;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.infoSection ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.infoSection li {
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.notElectron {
+    text-align: center;
+    padding: 40px 20px;
+    background: var(--bg-secondary);
+    border-radius: 8px;
+}
+
+.notElectron h3 {
+    margin: 0 0 16px 0;
+    font-size: 20px;
+    color: var(--text-primary);
+}
+
+.notElectron p {
+    margin: 0 0 12px 0;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}

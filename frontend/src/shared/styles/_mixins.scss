@@ -1,0 +1,94 @@
+@use './variables' as *;
+
+// Flexbox mixins
+@mixin flex($direction: row, $justify: flex-start, $align: stretch) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $justify;
+    align-items: $align;
+}
+
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@mixin flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+// Button reset
+@mixin button-reset {
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: inherit;
+    outline: none;
+}
+
+// Truncate text
+@mixin truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+// Scrollbar styling
+@mixin custom-scrollbar {
+    &::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: $bg-secondary;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: $bg-tertiary;
+        border-radius: $border-radius-sm;
+
+        &:hover {
+            background: $bg-modifier;
+        }
+    }
+}
+
+// Card style
+@mixin card {
+    background: $bg-secondary;
+    border-radius: $border-radius-md;
+    padding: $spacing-lg;
+}
+
+// Transition
+@mixin transition($property: all, $duration: $transition-normal) {
+    transition: $property $duration;
+}
+
+// Hover lift effect
+@mixin hover-lift {
+    @include transition(transform);
+
+    &:hover {
+        transform: translateY(-2px);
+    }
+}
+
+// Focus ring
+@mixin focus-ring {
+    &:focus-visible {
+        outline: 2px solid $primary;
+        outline-offset: 2px;
+    }
+}

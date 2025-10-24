@@ -1,0 +1,87 @@
+@use '@shared/styles/variables' as *;
+@use '@shared/styles/mixins' as *;
+
+.userPanel {
+    @include flex(row, space-between, center);
+    width: 100%;
+    padding: $spacing-sm;
+    background: $bg-secondary;
+    border-top: 1px solid $border-color;
+    gap: $spacing-sm;
+}
+
+.userInfo {
+    @include flex(row, flex-start, center);
+    gap: $spacing-sm;
+    flex: 1;
+    min-width: 0;
+    cursor: pointer;
+    padding: $spacing-xs;
+    border-radius: $border-radius-sm;
+    transition: background 0.2s ease;
+
+    &:hover {
+        background: $bg-hover;
+    }
+}
+
+.userDetails {
+    @include flex(column, flex-start, flex-start);
+    min-width: 0;
+    flex: 1;
+}
+
+.username {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.customStatus {
+    font-size: $font-size-xs;
+    color: $text-secondary;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.controls {
+    @include flex(row, flex-end, center);
+    gap: $spacing-xs;
+}
+
+.controlButton {
+    @include flex(row, center, center);
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    color: $text-secondary;
+    border-radius: $border-radius-sm;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+        background: $bg-hover;
+        color: $text-primary;
+    }
+
+    &.active {
+        color: $danger;
+        background: rgba($danger, 0.1);
+
+        &:hover {
+            background: rgba($danger, 0.2);
+        }
+    }
+
+    svg {
+        width: 20px;
+        height: 20px;
+    }
+}
