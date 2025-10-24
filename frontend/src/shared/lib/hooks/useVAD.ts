@@ -76,8 +76,9 @@ export function useVAD({ enabled, onSpeechStart, onSpeechEnd, sensitivity = 'med
 
     if (isElectron) {
         // Получаем путь к текущему HTML файлу
-        const currentPath = window.location.href; // file:///C:/path/to/dist/index.html
-        const distPath = currentPath.substring(0, currentPath.lastIndexOf('/') + 1); // file:///C:/path/to/dist/
+        const currentPath = window.location.href; // file:///C:/path/to/dist/index.html#/channels/...
+        // Убираем hash и filename, оставляем только путь к dist/
+        const distPath = currentPath.split('/index.html')[0] + '/'; // file:///C:/path/to/dist/
 
         baseAssetPath = distPath;
         onnxWASMBasePath = `${distPath}onnxruntime-web/`;
@@ -87,12 +88,11 @@ export function useVAD({ enabled, onSpeechStart, onSpeechEnd, sensitivity = 'med
     }
 
     console.log('🎤 VAD paths:', { isElectron, baseAssetPath, onnxWASMBasePath });
-
     const vad = useMicVAD({
         model: 'v5',
         baseAssetPath,
         onnxWASMBasePath,
-        startOnLoad: false,
+        startOnLoad: false, // НЕ запускаем автоматически, контролируем через enabled
         positiveSpeechThreshold: config.positiveSpeechThreshold,
         negativeSpeechThreshold: config.negativeSpeechThreshold,
         redemptionMs: config.redemptionMs,
@@ -111,10 +111,11 @@ export function useVAD({ enabled, onSpeechStart, onSpeechEnd, sensitivity = 'med
             enabled,
             loading: vad.loading,
             errored: vad.errored,
+            listening: vad.listening,
             hasStarted: hasStartedRef.current,
-            willStart: enabled && !vad.loading && !vad.errored && !hasStartedRef.current,
         });
 
+        // Если нужно включить, модель загружена и ещё не запустили
         if (enabled && !vad.loading && !vad.errored && !hasStartedRef.current) {
             console.log(`✅ VAD: starting with ${sensitivity} sensitivity`);
             console.log('VAD config:', config);
@@ -124,7 +125,8 @@ export function useVAD({ enabled, onSpeechStart, onSpeechEnd, sensitivity = 'med
             return;
         }
 
-        if ((!enabled || vad.errored) && hasStartedRef.current) {
+        // Если нужно выключить и мы запускали
+        if (!enabled && hasStartedRef.current) {
             console.log('🛑 VAD: pausing');
             hasStartedRef.current = false;
             vad.pause();
